@@ -1,0 +1,37 @@
+name: Generate Coverage
+on: [push, pull_request]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4.1.0
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Generate coverage report
+        run: pnpm run coverage
+
+      - name: Upload imagetools-core Report
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: imagetools-core
+          files: 'packages/core/coverage/coverage-final.json'
+
+      - name: Upload vite-imagetools Report
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: vite-imagetools
+          files: 'packages/vite/coverage/coverage-final.json'

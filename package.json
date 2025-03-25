@@ -1,0 +1,46 @@
+{
+  "name": "imagetools",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "ci:version": "pnpm changeset version",
+    "ci:publish": "pnpm build && pnpm publish -r",
+    "build": "pnpm run --recursive --filter !example-* build",
+    "test": "pnpm run --recursive test",
+    "coverage": "pnpm run --recursive coverage",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write .",
+    "doc": "pnpm run --filter imagetools-core build && typedoc"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.10",
+    "@eslint/js": "^9.15.0",
+    "@rollup/plugin-typescript": "^12.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.15.0",
+    "prettier": "^3.0.3",
+    "rollup": "^4.22.4",
+    "tslib": "^2.6.1",
+    "typedoc": "^0.27.9",
+    "typedoc-plugin-markdown": "^4.4.2",
+    "typescript": "^5.1.6",
+    "typescript-eslint": "^8.16.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "packageManager": "pnpm@10.6.5",
+  "engines": {
+    "pnpm": "^10.0.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "jest"
+      ]
+    }
+  }
+}

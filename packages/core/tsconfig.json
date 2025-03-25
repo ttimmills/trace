@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "./dist",
+    "paths": {
+      "imagetools-core": ["../core/dist"],
+      "vite-imagetools": ["../vite/dist"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "**/__tests__/**"]
+}

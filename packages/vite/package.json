@@ -1,0 +1,59 @@
+{
+  "name": "vite-imagetools",
+  "description": "Load and transform images using a toolbox of import directives!",
+  "version": "7.0.5",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/JonasKruckenberg/imagetools/tree/main/packages/vite",
+  "author": "jkruckenberg <iterpre@protonmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JonasKruckenberg/imagetools.git"
+  },
+  "keywords": [
+    "resize-images",
+    "responsive-images",
+    "vite",
+    "image",
+    "vite-plugin"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "rollup -cw",
+    "build": "rollup -c",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^5.0.5",
+    "imagetools-core": "workspace:^",
+    "sharp": "^0.33.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.0.0",
+    "@types/jest-image-snapshot": "^6.4.0",
+    "@types/jsdom": "^21.1.1",
+    "@types/picomatch": "^3.0.0",
+    "@vitest/coverage-v8": "^3.0.7",
+    "imagetools-core": "workspace:^",
+    "jest-image-snapshot": "^6.4.0",
+    "jsdom": "^26.0.0",
+    "picomatch": "^4.0.0",
+    "rollup": "^4.22.4",
+    "sharp": "^0.33.1",
+    "tslib": "^2.6.1",
+    "typescript": "^5.1.6",
+    "vite": "^6.2.3",
+    "vitest": "^3.0.7"
+  }
+}
