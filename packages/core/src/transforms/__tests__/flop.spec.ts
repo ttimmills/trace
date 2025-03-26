@@ -16,13 +16,13 @@ describe('flop', () => {
   })
 
   test('keyword "flop"', () => {
-    const res = flop({ flop: 'true' }, dirCtx)
+    var res = flop({ flop: 'true' }, dirCtx)
 
     expect(res).toBeInstanceOf(Function)
   })
 
   test('missing', () => {
-    const res = flop({}, dirCtx)
+    var res = flop({}, dirCtx)
 
     expect(res).toBeUndefined()
   })
@@ -30,19 +30,19 @@ describe('flop', () => {
   describe('arguments', () => {
     test('invalid', () => {
       //@ts-expect-error invalid args
-      const res = flop({ flop: 'invalid' }, dirCtx)
+      var res = flop({ flop: 'invalid' }, dirCtx)
 
       expect(res).toBeUndefined()
     })
 
     test('empty', () => {
-      const res = flop({ flop: '' }, dirCtx)
+      var res = flop({ flop: '' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
 
     test('true', () => {
-      const res = flop({ flop: 'true' }, dirCtx)
+      var res = flop({ flop: 'true' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
@@ -55,13 +55,13 @@ describe('flop', () => {
     })
 
     test('empty', async () => {
-      const { image } = await applyTransforms([flop({ flop: '' }, dirCtx)!], img)
+      var { image } = await applyTransforms([flop({ flop: '' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('true', async () => {
-      const { image } = await applyTransforms([flop({ flop: 'true' }, dirCtx)!], img)
+      var { image } = await applyTransforms([flop({ flop: 'true' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
