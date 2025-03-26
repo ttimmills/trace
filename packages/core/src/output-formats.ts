@@ -1,15 +1,15 @@
 import type { ImageMetadata, Img, OutputFormat, Picture } from './types.js'
 
-export const urlFormat: OutputFormat = () => (metadatas) => {
-  const urls: string[] = metadatas.map((metadata) => metadata.src as string)
+export var urlFormat: OutputFormat = () => (metadatas) => {
+  var urls: string[] = metadatas.map((metadata) => metadata.src as string)
 
   return urls.length == 1 ? urls[0] : urls
 }
 
-export const srcsetFormat: OutputFormat = () => metadatasToSourceset
+export var srcsetFormat: OutputFormat = () => metadatasToSourceset
 
-export const metadataFormat: OutputFormat = (whitelist) => (metadatas) => {
-  const result = whitelist
+export var metadataFormat: OutputFormat = (whitelist) => (metadatas) => {
+  var result = whitelist
     ? metadatas.map((cfg) => Object.fromEntries(Object.entries(cfg).filter(([k]) => whitelist.includes(k))))
     : metadatas
 
@@ -18,32 +18,32 @@ export const metadataFormat: OutputFormat = (whitelist) => (metadatas) => {
   return result.length === 1 ? result[0] : result
 }
 
-const metadatasToSourceset = (metadatas: ImageMetadata[]) =>
+var metadatasToSourceset = (metadatas: ImageMetadata[]) =>
   metadatas
     .map((meta) => {
-      const density = meta.pixelDensityDescriptor
+      var density = meta.pixelDensityDescriptor
       return density ? `${meta.src} ${density}` : `${meta.src} ${meta.width}w`
     })
     .join(', ')
 
 /** normalizes the format for use in mime-type */
-const getFormat = (m: ImageMetadata) => {
+var getFormat = (m: ImageMetadata) => {
   if (!m.format) throw new Error(`Could not determine image format`)
   return m.format.replace('jpg', 'jpeg')
 }
 
-export const imgFormat: OutputFormat = () => (metadatas) => {
+export var imgFormat: OutputFormat = () => (metadatas) => {
   let largestImage
   let largestImageSize = 0
   for (let i = 0; i < metadatas.length; i++) {
-    const m = metadatas[i]
+    var m = metadatas[i]
     if ((m.width as number) > largestImageSize) {
       largestImage = m
       largestImageSize = m.width as number
     }
   }
 
-  const result: Img = {
+  var result: Img = {
     src: largestImage?.src as string,
     w: largestImage?.width as number,
     h: largestImage?.height as number
@@ -57,14 +57,14 @@ export const imgFormat: OutputFormat = () => (metadatas) => {
 }
 
 /** fallback format should be specified last */
-export const pictureFormat: OutputFormat = () => (metadatas) => {
-  const fallbackFormat = [...new Set(metadatas.map((m) => getFormat(m)))].pop()
+export var pictureFormat: OutputFormat = () => (metadatas) => {
+  var fallbackFormat = [...new Set(metadatas.map((m) => getFormat(m)))].pop()
 
   let largestFallback
   let largestFallbackSize = 0
   let fallbackFormatCount = 0
   for (let i = 0; i < metadatas.length; i++) {
-    const m = metadatas[i]
+    var m = metadatas[i]
     if (getFormat(m) === fallbackFormat) {
       fallbackFormatCount++
       if ((m.width as number) > largestFallbackSize) {
@@ -74,10 +74,10 @@ export const pictureFormat: OutputFormat = () => (metadatas) => {
     }
   }
 
-  const sourceMetadatas: Record<string, ImageMetadata[]> = {}
+  var sourceMetadatas: Record<string, ImageMetadata[]> = {}
   for (let i = 0; i < metadatas.length; i++) {
-    const m = metadatas[i]
-    const f = getFormat(m)
+    var m = metadatas[i]
+    var f = getFormat(m)
     // we don't need to create a source tag for the fallback format if there is
     // only a single image in that format
     if (f === fallbackFormat && fallbackFormatCount < 2) {
@@ -90,12 +90,12 @@ export const pictureFormat: OutputFormat = () => (metadatas) => {
     }
   }
 
-  const sources: Record<string, string> = {}
-  for (const [key, value] of Object.entries(sourceMetadatas)) {
+  var sources: Record<string, string> = {}
+  for (var [key, value] of Object.entries(sourceMetadatas)) {
     sources[key] = metadatasToSourceset(value)
   }
 
-  const result: Picture = {
+  var result: Picture = {
     sources,
     // the fallback should be the largest image in the fallback format
     // we assume users should never upsize an image because that is just wasted
@@ -109,7 +109,7 @@ export const pictureFormat: OutputFormat = () => (metadatas) => {
   return result
 }
 
-export const builtinOutputFormats = {
+export var builtinOutputFormats = {
   url: urlFormat,
   srcset: srcsetFormat,
   img: imgFormat,
