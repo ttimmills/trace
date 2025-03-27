@@ -12,7 +12,7 @@ import { resize } from './transforms/resize.js'
 import { rotate } from './transforms/rotate.js'
 import { tint } from './transforms/tint.js'
 
-export const builtins = [
+export let builtins = [
   blur,
   flatten,
   flip,
