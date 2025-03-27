@@ -12,33 +12,33 @@ describe('fit', () => {
   })
 
   test('keyword "fit"', () => {
-    const res = getFit({ fit: 'cover' }, img)
+    var res = getFit({ fit: 'cover' }, img)
 
     expect(res).toEqual('cover')
   })
 
   test('missing', () => {
-    const res = getFit({}, img)
+    var res = getFit({}, img)
 
     expect(res).toBeUndefined()
   })
 
   describe('shorthands', () => {
     test('invalid', () => {
-      const shorts: FitValue[] = ['cover', 'contain', 'fill', 'inside', 'outside']
+      var shorts: FitValue[] = ['cover', 'contain', 'fill', 'inside', 'outside']
 
-      for (const short of shorts) {
-        const res = getFit({ [short]: 'invalid' }, img)
+      for (var short of shorts) {
+        var res = getFit({ [short]: 'invalid' }, img)
 
         expect(res).toBeUndefined()
       }
     })
 
     test('valid', () => {
-      const shorts: FitValue[] = ['cover', 'contain', 'fill', 'inside', 'outside']
+      var shorts: FitValue[] = ['cover', 'contain', 'fill', 'inside', 'outside']
 
-      for (const short of shorts) {
-        const res = getFit({ [short]: '' }, img)
+      for (var short of shorts) {
+        var res = getFit({ [short]: '' }, img)
 
         expect(res).toEqual(short)
       }
@@ -47,22 +47,22 @@ describe('fit', () => {
 
   describe('arguments', () => {
     test('invalid', () => {
-      const res = getFit({ fit: 'invalid' }, img)
+      var res = getFit({ fit: 'invalid' }, img)
 
       expect(res).toBeUndefined()
     })
 
     test('empty', () => {
-      const res = getFit({ getFit: '' }, img)
+      var res = getFit({ getFit: '' }, img)
 
       expect(res).toBeUndefined()
     })
 
     test('valid', () => {
-      const args: FitValue[] = ['cover', 'contain', 'fill', 'inside', 'outside']
+      var args: FitValue[] = ['cover', 'contain', 'fill', 'inside', 'outside']
 
-      for (const arg of args) {
-        const res = getFit({ fit: arg }, img)
+      for (var arg of args) {
+        var res = getFit({ fit: arg }, img)
 
         expect(res).toEqual(arg)
       }
