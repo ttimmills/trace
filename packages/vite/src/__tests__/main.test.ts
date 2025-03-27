@@ -21,7 +21,7 @@ describe('vite-imagetools', () => {
   describe('options', () => {
     describe('include', () => {
       it('accepts a string', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -40,7 +40,7 @@ describe('vite-imagetools', () => {
       })
 
       it('accepts a regex', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -59,7 +59,7 @@ describe('vite-imagetools', () => {
       })
 
       it('accepts an array', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -78,7 +78,7 @@ describe('vite-imagetools', () => {
       })
 
       it('errors on invalid input', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'silent',
           build: { write: false },
@@ -98,7 +98,7 @@ describe('vite-imagetools', () => {
       })
 
       it('does nothing non matching import', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -119,7 +119,7 @@ describe('vite-imagetools', () => {
 
     describe('exclude', () => {
       it('accepts a string', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -138,7 +138,7 @@ describe('vite-imagetools', () => {
       })
 
       it('accepts a regex', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -157,7 +157,7 @@ describe('vite-imagetools', () => {
       })
 
       it('accepts an array', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -176,7 +176,7 @@ describe('vite-imagetools', () => {
       })
 
       it('errors on invalid input', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'silent',
           build: { write: false },
@@ -196,7 +196,7 @@ describe('vite-imagetools', () => {
       })
 
       it('resolves normal on non matching input', async () => {
-        const p = build({
+        let p = build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -217,8 +217,8 @@ describe('vite-imagetools', () => {
 
     describe('logging', () => {
       test('logs info messages to console', async () => {
-        const logger = createLogger('info')
-        const spy = vi.spyOn(logger, 'info')
+        let logger = createLogger('info')
+        let spy = vi.spyOn(logger, 'info')
         await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'info',
@@ -246,8 +246,8 @@ describe('vite-imagetools', () => {
         expect(spy).toHaveBeenCalledWith('An info message')
       })
       test('logs warn messages through rollup', async () => {
-        const logger = createLogger('info')
-        const spy = vi.spyOn(logger, 'warn')
+        let logger = createLogger('info')
+        let spy = vi.spyOn(logger, 'warn')
         await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
@@ -300,7 +300,7 @@ describe('vite-imagetools', () => {
           })
           fail()
         } catch (err: unknown) {
-          const e = err as { plugin: string; message: string }
+          let e = err as { plugin: string; message: string }
           expect(e.plugin).toEqual('imagetools')
           expect(e.message).toContain('An error')
         }
@@ -309,7 +309,7 @@ describe('vite-imagetools', () => {
 
     describe('removeMetadata', () => {
       test('true removes private metadata', async () => {
-        const bundle = (await build({
+        let bundle = (await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -324,17 +324,17 @@ describe('vite-imagetools', () => {
           ]
         })) as RollupOutput | RollupOutput[]
 
-        const files = getFiles(bundle, '**.png') as OutputAsset[]
+        let files = getFiles(bundle, '**.png') as OutputAsset[]
 
-        const metadata = await sharp(files[0].source as Buffer).metadata()
+        let metadata = await sharp(files[0].source as Buffer).metadata()
 
         expect(metadata).not.toHaveProperty('xmp')
       })
 
       test('false leaves private metadata', async () => {
-        const dir = './node_modules/.cache/imagetools_test_false_leaves_private_metadata'
+        let dir = './node_modules/.cache/imagetools_test_false_leaves_private_metadata'
         await rm(dir, { recursive: true, force: true })
-        const bundle = (await build({
+        let bundle = (await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -350,9 +350,9 @@ describe('vite-imagetools', () => {
           ]
         })) as RollupOutput | RollupOutput[]
 
-        const files = getFiles(bundle, '**.png') as OutputAsset[]
+        let files = getFiles(bundle, '**.png') as OutputAsset[]
 
-        const metadata = await sharp(files[0].source as Buffer).metadata()
+        let metadata = await sharp(files[0].source as Buffer).metadata()
 
         expect(metadata).toHaveProperty('xmp')
       })
@@ -360,7 +360,7 @@ describe('vite-imagetools', () => {
 
     describe('resolveConfigs', () => {
       test('can be used to generate multiple images (presets)', async () => {
-        const bundle = (await build({
+        let bundle = (await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -377,14 +377,14 @@ describe('vite-imagetools', () => {
           ]
         })) as RollupOutput | RollupOutput[]
 
-        const files = getFiles(bundle, '**.png') as OutputAsset[]
+        let files = getFiles(bundle, '**.png') as OutputAsset[]
         expect(files).toHaveLength(2)
       })
     })
 
     describe('defaultDirectives', () => {
-      test('const', async () => {
-        const bundle = (await build({
+      test('let', async () => {
+        let bundle = (await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -399,12 +399,12 @@ describe('vite-imagetools', () => {
           ]
         })) as RollupOutput | RollupOutput[]
 
-        const files = getFiles(bundle, '**.png') as OutputAsset[]
+        let files = getFiles(bundle, '**.png') as OutputAsset[]
         expect(files).toHaveLength(2)
       })
 
       test('function', async () => {
-        const bundle = (await build({
+        let bundle = (await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -424,12 +424,12 @@ describe('vite-imagetools', () => {
           ]
         })) as RollupOutput | RollupOutput[]
 
-        const files = getFiles(bundle, '**.png') as OutputAsset[]
+        let files = getFiles(bundle, '**.png') as OutputAsset[]
         expect(files).toHaveLength(2)
       })
 
       test('function with with metadata import', async () => {
-        const bundle = (await build({
+        let bundle = (await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -449,8 +449,8 @@ describe('vite-imagetools', () => {
           ]
         })) as RollupOutput | RollupOutput[]
 
-        const files = getFiles(bundle, '**.js') as OutputChunk[]
-        const { window } = new JSDOM(``, { runScripts: 'outside-only' })
+        let files = getFiles(bundle, '**.js') as OutputChunk[]
+        let { window } = new JSDOM(``, { runScripts: 'outside-only' })
         window.eval(files[0].code)
 
         expect(window.__IMAGE__).toHaveProperty('width')
@@ -469,10 +469,10 @@ describe('vite-imagetools', () => {
 
     describe('cache.retention', () => {
       test('is used to clear cache with retention of 86400', async () => {
-        const dir = './node_modules/.cache/imagetools_test_cache_retention'
+        let dir = './node_modules/.cache/imagetools_test_cache_retention'
         await rm(dir, { recursive: true, force: true })
-        const root = join(__dirname, '__fixtures__')
-        const config: (width: number) => InlineConfig = (width) => ({
+        let root = join(__dirname, '__fixtures__')
+        let config: (width: number) => InlineConfig = (width) => ({
           root,
           logLevel: 'warn',
           build: { write: false },
@@ -485,14 +485,14 @@ describe('vite-imagetools', () => {
           ]
         })
         await build(config(300))
-        const image_300 = (await readdir(dir))[0]
+        let image_300 = (await readdir(dir))[0]
         expect(image_300).toBeTypeOf('string')
 
         await build(config(200))
-        const image_200 = (await readdir(dir)).find((name) => name !== image_300)
+        let image_200 = (await readdir(dir)).find((name) => name !== image_300)
         expect(image_200).toBeTypeOf('string')
 
-        const date = new Date(Date.now() - 86400000)
+        let date = new Date(Date.now() - 86400000)
         await utimes(`${dir}/${image_300}`, date, date)
         await utimes(`${dir}/${image_200}`, date, date)
         await build(config(200))
@@ -502,10 +502,10 @@ describe('vite-imagetools', () => {
     })
 
     describe('cache.dir', () => {
-      const dir = './node_modules/.cache/imagetools_test_cache_dir'
+      let dir = './node_modules/.cache/imagetools_test_cache_dir'
       test('is used', async () => {
         await rm(dir, { recursive: true, force: true })
-        const root = join(__dirname, '__fixtures__')
+        let root = join(__dirname, '__fixtures__')
         await build({
           root,
           logLevel: 'warn',
@@ -519,12 +519,12 @@ describe('vite-imagetools', () => {
           ]
         })
 
-        const image = (await readdir(dir))[0]
+        let image = (await readdir(dir))[0]
         expect(image).toBeTypeOf('string')
       })
 
       test('is consistent', async () => {
-        const image = (await readdir(dir))[0]
+        let image = (await readdir(dir))[0]
 
         expect(image).toBe('325b80fade286c672ea884b87e65f7a3278a9f8a')
       })
@@ -532,7 +532,7 @@ describe('vite-imagetools', () => {
 
     describe('cache.avifFormat', () => {
       test('is avif format', async () => {
-        const dir = './node_modules/.cache/imagetools_test_cache_dir'
+        let dir = './node_modules/.cache/imagetools_test_cache_dir'
         await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
@@ -546,7 +546,7 @@ describe('vite-imagetools', () => {
           ]
         })
 
-        const bundle = (await build({
+        let bundle = (await build({
           root: join(__dirname, '__fixtures__'),
           logLevel: 'warn',
           build: { write: false },
@@ -559,7 +559,7 @@ describe('vite-imagetools', () => {
           ]
         })) as RollupOutput | RollupOutput[]
 
-        const files = getFiles(bundle, '**.avif') as OutputAsset[]
+        let files = getFiles(bundle, '**.avif') as OutputAsset[]
 
         expect(files).toHaveLength(1)
       })
@@ -567,7 +567,7 @@ describe('vite-imagetools', () => {
   })
 
   test('relative import', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -580,14 +580,14 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.png') as OutputAsset[]
+    let files = getFiles(bundle, '**.png') as OutputAsset[]
     expect(files[0].source).toMatchImageSnapshot()
   })
 
   test('absolute import', async () => {
-    const imagePath = join(__dirname, '__fixtures__/pexels-allec-gomes-5195763.png')
+    let imagePath = join(__dirname, '__fixtures__/pexels-allec-gomes-5195763.png')
 
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -600,12 +600,12 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.png') as OutputAsset[]
+    let files = getFiles(bundle, '**.png') as OutputAsset[]
     expect(files[0].source).toMatchImageSnapshot()
   })
 
   test('import with space in identifier', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -618,12 +618,12 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.png') as OutputAsset[]
+    let files = getFiles(bundle, '**.png') as OutputAsset[]
     expect(files[0].source).toMatchImageSnapshot()
   })
 
   test('inline import', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -636,8 +636,8 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.js') as OutputChunk[]
-    const { window } = new JSDOM(``, { runScripts: 'outside-only' })
+    let files = getFiles(bundle, '**.js') as OutputChunk[]
+    let { window } = new JSDOM(``, { runScripts: 'outside-only' })
     window.eval(files[0].code)
 
     expect(window.__IMAGE__).toBe(
@@ -646,9 +646,9 @@ describe('vite-imagetools', () => {
   })
 
   test('import with space in identifier and cache', async () => {
-    const dir = './node_modules/.cache/imagetools_test_import_with_space'
+    let dir = './node_modules/.cache/imagetools_test_import_with_space'
     await rm(dir, { recursive: true, force: true })
-    const config: InlineConfig = {
+    let config: InlineConfig = {
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -661,14 +661,14 @@ describe('vite-imagetools', () => {
       ]
     }
     await build(config)
-    const bundle = (await build(config)) as RollupOutput | RollupOutput[]
+    let bundle = (await build(config)) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.png') as OutputAsset[]
+    let files = getFiles(bundle, '**.png') as OutputAsset[]
     expect(files[0].source).toMatchImageSnapshot()
   })
 
   test('non existent file', async () => {
-    const p = build({
+    let p = build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -685,7 +685,7 @@ describe('vite-imagetools', () => {
   })
 
   test('no directives', async () => {
-    const p = build({
+    let p = build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -702,7 +702,7 @@ describe('vite-imagetools', () => {
   })
 
   test('metadata import', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -715,8 +715,8 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.js') as OutputChunk[]
-    const { window } = new JSDOM(``, { runScripts: 'outside-only' })
+    let files = getFiles(bundle, '**.js') as OutputChunk[]
+    let { window } = new JSDOM(``, { runScripts: 'outside-only' })
     window.eval(files[0].code)
 
     expect(window.__IMAGE__).toHaveProperty('width')
@@ -733,7 +733,7 @@ describe('vite-imagetools', () => {
   })
 
   test('destructured metadata import', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -746,8 +746,8 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.js') as OutputChunk[]
-    const { window } = new JSDOM(``, { runScripts: 'outside-only' })
+    let files = getFiles(bundle, '**.js') as OutputChunk[]
+    let { window } = new JSDOM(``, { runScripts: 'outside-only' })
     window.eval(files[0].code)
 
     expect(window.__IMAGE__).toHaveProperty('width')
@@ -756,7 +756,7 @@ describe('vite-imagetools', () => {
   })
 
   test('metadata import with whitelist', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -769,8 +769,8 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.js') as OutputChunk[]
-    const { window } = new JSDOM(``, { runScripts: 'outside-only' })
+    let files = getFiles(bundle, '**.js') as OutputChunk[]
+    let { window } = new JSDOM(``, { runScripts: 'outside-only' })
     window.eval(files[0].code)
 
     expect(window.__IMAGE__).toHaveProperty('width')
@@ -779,7 +779,7 @@ describe('vite-imagetools', () => {
   })
 
   test('srcset', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -792,15 +792,15 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.js') as OutputChunk[]
-    const { window } = new JSDOM(``, { runScripts: 'outside-only' })
+    let files = getFiles(bundle, '**.js') as OutputChunk[]
+    let { window } = new JSDOM(``, { runScripts: 'outside-only' })
     window.eval(files[0].code)
 
     expect(window.__IMAGE__).toBe('/assets/with-metadata-D_H5Cxui.png 600w')
   })
 
   test('async output format', async () => {
-    const bundle = (await build({
+    let bundle = (await build({
       root: join(__dirname, '__fixtures__'),
       logLevel: 'warn',
       build: { write: false },
@@ -818,8 +818,8 @@ describe('vite-imagetools', () => {
       ]
     })) as RollupOutput | RollupOutput[]
 
-    const files = getFiles(bundle, '**.js') as OutputChunk[]
-    const { window } = new JSDOM(``, { runScripts: 'outside-only' })
+    let files = getFiles(bundle, '**.js') as OutputChunk[]
+    let { window } = new JSDOM(``, { runScripts: 'outside-only' })
     window.eval(files[0].code)
 
     expect(window.__IMAGE__).toBe('success')
