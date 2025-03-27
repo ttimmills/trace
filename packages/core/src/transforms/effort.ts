@@ -5,7 +5,7 @@ export interface EffortOptions {
   effort: string
 }
 
-const FORMAT_TO_EFFORT_RANGE: Record<string, [number, number]> = {
+let FORMAT_TO_EFFORT_RANGE: Record<string, [number, number]> = {
   avif: [0, 9],
   gif: [1, 10],
   heif: [0, 9],
@@ -23,11 +23,11 @@ function parseEffort(effort: string, format: string) {
   return parseInt(effort)
 }
 
-export const getEffort: TransformOption<EffortOptions, number> = ({ effort: _effort }, image) => {
+export let getEffort: TransformOption<EffortOptions, number> = ({ effort: _effort }, image) => {
   if (!_effort) return
 
-  const format = (getMetadata(image, 'format') ?? '') as string
-  const effort = parseEffort(_effort, format)
+  let format = (getMetadata(image, 'format') ?? '') as string
+  let effort = parseEffort(_effort, format)
   if (!Number.isInteger(effort)) return
 
   setMetadata(image, 'effort', effort)
