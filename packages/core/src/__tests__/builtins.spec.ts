@@ -1,7 +1,7 @@
 import { builtins } from '../builtins'
 import { describe, test, expect } from 'vitest'
 
-let expectedBuiltins = [
+const expectedBuiltins = [
   'blur',
   'flatten',
   'flip',
@@ -19,7 +19,7 @@ let expectedBuiltins = [
 
 describe('builtins', () => {
   test('correct exports', () => {
-    for (let builtin of expectedBuiltins) {
+    for (const builtin of expectedBuiltins) {
       expect(!!builtins.some((d) => d.name === builtin)).toBeTruthy()
     }
   })
