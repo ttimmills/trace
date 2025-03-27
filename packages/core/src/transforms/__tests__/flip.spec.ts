@@ -16,13 +16,13 @@ describe('flip', () => {
   })
 
   test('keyword "flip"', () => {
-    const res = flip({ flip: 'true' }, dirCtx)
+    var res = flip({ flip: 'true' }, dirCtx)
 
     expect(res).toBeInstanceOf(Function)
   })
 
   test('missing', () => {
-    const res = flip({}, dirCtx)
+    var res = flip({}, dirCtx)
 
     expect(res).toBeUndefined()
   })
@@ -30,19 +30,19 @@ describe('flip', () => {
   describe('arguments', () => {
     test('invalid', () => {
       //@ts-expect-error invalid args
-      const res = flip({ flip: 'invalid' }, dirCtx)
+      var res = flip({ flip: 'invalid' }, dirCtx)
 
       expect(res).toBeUndefined()
     })
 
     test('empty', () => {
-      const res = flip({ flip: '' }, dirCtx)
+      var res = flip({ flip: '' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
 
     test('true', () => {
-      const res = flip({ flip: 'true' }, dirCtx)
+      var res = flip({ flip: 'true' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
@@ -55,13 +55,13 @@ describe('flip', () => {
     })
 
     test('empty', async () => {
-      const { image } = await applyTransforms([flip({ flip: '' }, dirCtx)!], img)
+      var { image } = await applyTransforms([flip({ flip: '' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('true', async () => {
-      const { image } = await applyTransforms([flip({ flip: 'true' }, dirCtx)!], img)
+      var { image } = await applyTransforms([flip({ flip: 'true' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
