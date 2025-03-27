@@ -5,7 +5,7 @@ export interface BackgroundOptions {
   background: string
 }
 
-export const getBackground: TransformOption<BackgroundOptions, string> = ({ background }, image) => {
+export let getBackground: TransformOption<BackgroundOptions, string> = ({ background }, image) => {
   if (typeof background !== 'string' || !background.length) return
 
   image[METADATA].backgroundDirective = background
