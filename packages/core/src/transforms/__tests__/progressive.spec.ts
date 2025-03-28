@@ -12,13 +12,13 @@ describe('progressive', () => {
   })
 
   test('keyword "progressive"', () => {
-    const res = getProgressive({ progressive: 'true' }, img)
+    var res = getProgressive({ progressive: 'true' }, img)
 
     expect(res).toEqual(true)
   })
 
   test('missing', () => {
-    const res = getProgressive({}, img)
+    var res = getProgressive({}, img)
 
     expect(res).toBeUndefined()
   })
@@ -26,19 +26,19 @@ describe('progressive', () => {
   describe('arguments', () => {
     test('invalid', () => {
       //@ts-expect-error invalid args
-      const res = getProgressive({ progressive: 'invalid' }, img)
+      var res = getProgressive({ progressive: 'invalid' }, img)
 
       expect(res).toBeUndefined()
     })
 
     test('empty', () => {
-      const res = getProgressive({ progressive: '' }, img)
+      var res = getProgressive({ progressive: '' }, img)
 
       expect(res).toEqual(true)
     })
 
     test('true', () => {
-      const res = getProgressive({ progressive: 'true' }, img)
+      var res = getProgressive({ progressive: 'true' }, img)
 
       expect(res).toEqual(true)
     })
