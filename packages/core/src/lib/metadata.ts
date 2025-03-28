@@ -1,7 +1,7 @@
 import type { Sharp } from 'sharp'
 import type { ImageMetadata } from '../types.js'
 
-export const METADATA = Symbol('image metadata')
+export let METADATA = Symbol('image metadata')
 
 declare module 'sharp' {
   interface Sharp {
