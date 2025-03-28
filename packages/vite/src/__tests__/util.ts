@@ -22,7 +22,7 @@ export function testEntry(source: string): Plugin {
 }
 
 export function getFiles(bundle: RollupOutput | RollupOutput[], pattern: string) {
-  const isMatch = pm(pattern)
+  var isMatch = pm(pattern)
 
   return (Array.isArray(bundle) ? bundle[0] : bundle).output.filter((entry) => isMatch(entry.fileName))
 }
