@@ -1,6 +1,6 @@
 import type { Logger } from '../types.js'
 
-export const consoleLogger: Logger = {
+export let consoleLogger: Logger = {
   info(msg) {
     console.info(msg)
   },
