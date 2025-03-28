@@ -16,13 +16,13 @@ describe('grayscale', () => {
   })
 
   test('keyword "grayscale"', () => {
-    var res = grayscale({ grayscale: 'true' }, dirCtx)
+    const res = grayscale({ grayscale: 'true' }, dirCtx)
 
     expect(res).toBeInstanceOf(Function)
   })
 
   test('missing', () => {
-    var res = grayscale({}, dirCtx)
+    const res = grayscale({}, dirCtx)
 
     expect(res).toBeUndefined()
   })
@@ -30,19 +30,19 @@ describe('grayscale', () => {
   describe('arguments', () => {
     test('invalid', () => {
       //@ts-expect-error invalid args
-      var res = grayscale({ grayscale: 'invalid' }, dirCtx)
+      const res = grayscale({ grayscale: 'invalid' }, dirCtx)
 
       expect(res).toBeUndefined()
     })
 
     test('empty', () => {
-      var res = grayscale({ grayscale: '' }, dirCtx)
+      const res = grayscale({ grayscale: '' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
 
     test('true', () => {
-      var res = grayscale({ grayscale: 'true' }, dirCtx)
+      const res = grayscale({ grayscale: 'true' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
@@ -55,13 +55,13 @@ describe('grayscale', () => {
     })
 
     test('empty', async () => {
-      var { image } = await applyTransforms([grayscale({ grayscale: '' }, dirCtx)!], img)
+      const { image } = await applyTransforms([grayscale({ grayscale: '' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('true', async () => {
-      var { image } = await applyTransforms([grayscale({ grayscale: 'true' }, dirCtx)!], img)
+      const { image } = await applyTransforms([grayscale({ grayscale: 'true' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
