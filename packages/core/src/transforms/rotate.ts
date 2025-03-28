@@ -6,8 +6,8 @@ export interface RotateOptions {
   rotate: string
 }
 
-export const rotate: TransformFactory<RotateOptions> = (config) => {
-  const rotate = config.rotate && parseInt(config.rotate)
+export let rotate: TransformFactory<RotateOptions> = (config) => {
+  let rotate = config.rotate && parseInt(config.rotate)
 
   if (!rotate) return
 
