@@ -11,17 +11,17 @@ export function generateTransforms(
     logger = consoleLogger
   }
 
-  const transforms: ImageTransformation[] = []
-  const parametersUsed = new Set<string>()
+  let transforms: ImageTransformation[] = []
+  let parametersUsed = new Set<string>()
 
-  const context: TransformFactoryContext = {
+  let context: TransformFactoryContext = {
     useParam: (k) => parametersUsed.add(k),
     manualSearchParams,
     logger
   }
 
-  for (const directive of factories) {
-    const transform = directive(config, context)
+  for (let directive of factories) {
+    let transform = directive(config, context)
 
     if (typeof transform === 'function') transforms.push(transform)
   }
