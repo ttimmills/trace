@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import type { ImageConfig } from 'imagetools-core'
 
-export var createBasePath = (base?: string) => {
+export const createBasePath = (base?: string) => {
   return (base?.replace(/\/$/, '') || '') + '/@imagetools/'
 }
 
@@ -11,7 +11,7 @@ export function generateImageID(config: ImageConfig, imageHash: string) {
 
 export function hash(keyParts: Array<string | NodeJS.ArrayBufferView>) {
   let hash = createHash('sha1')
-  for (var keyPart of keyParts) {
+  for (const keyPart of keyParts) {
     hash = hash.update(keyPart)
   }
   return hash.digest('hex')
