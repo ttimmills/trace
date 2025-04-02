@@ -6,7 +6,7 @@ export interface FlattenOptions {
   flatten: '' | 'true'
 }
 
-export let flatten: TransformFactory<FlattenOptions> = (config) => {
+export const flatten: TransformFactory<FlattenOptions> = (config) => {
   if (config.flatten !== '' && config.flatten !== 'true') return
 
   return function flattenTransform(image) {
