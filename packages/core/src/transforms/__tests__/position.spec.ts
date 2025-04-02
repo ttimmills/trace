@@ -12,13 +12,13 @@ describe('position', () => {
   })
 
   test('keyword "position"', () => {
-    const res = getPosition({ position: 'top' }, img)
+    var res = getPosition({ position: 'top' }, img)
 
     expect(res).toEqual('top')
   })
 
   test('missing', () => {
-    const res = getPosition({}, img)
+    var res = getPosition({}, img)
 
     expect(res).toBeUndefined()
   })
@@ -27,10 +27,10 @@ describe('position', () => {
     test('invalid', () => {})
 
     test('valid', () => {
-      const shorts = ['top', 'right top', 'right', 'right bottom', 'bottom', 'left bottom', 'left', 'left top']
+      var shorts = ['top', 'right top', 'right', 'right bottom', 'bottom', 'left bottom', 'left', 'left top']
 
-      for (const s of shorts) {
-        const res = getPosition({ [s]: '' }, img)
+      for (var s of shorts) {
+        var res = getPosition({ [s]: '' }, img)
 
         expect(res).toEqual(s)
       }
@@ -40,20 +40,20 @@ describe('position', () => {
   describe('arguments', () => {
     test('invalid', () => {
       //@ts-expect-error invalid args
-      const res = getPosition({ position: 'invalid' }, img)
+      var res = getPosition({ position: 'invalid' }, img)
 
       expect(res).toBeUndefined()
     })
 
     test('empty', () => {
       //@ts-expect-error invalid args
-      const res = getPosition({ position: '' }, img)
+      var res = getPosition({ position: '' }, img)
 
       expect(res).toBeUndefined()
     })
 
     test('valid', () => {
-      const args: PositionValue[] = [
+      var args: PositionValue[] = [
         'top',
         'right top',
         'right',
@@ -76,8 +76,8 @@ describe('position', () => {
         'attention'
       ]
 
-      for (const arg of args) {
-        const res = getPosition({ position: arg }, img)
+      for (var arg of args) {
+        var res = getPosition({ position: arg }, img)
 
         expect(res).toEqual(arg)
       }
