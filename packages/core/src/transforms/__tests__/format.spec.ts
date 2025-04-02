@@ -17,13 +17,13 @@ describe('format', () => {
   })
 
   test('keyword "format"', () => {
-    const res = format({ format: 'avif' }, dirCtx)
+    var res = format({ format: 'avif' }, dirCtx)
 
     expect(res).toBeInstanceOf(Function)
   })
 
   test('missing', () => {
-    const res = format({}, dirCtx)
+    var res = format({}, dirCtx)
 
     expect(res).toBeUndefined()
   })
@@ -31,23 +31,23 @@ describe('format', () => {
   describe('arguments', () => {
     test('invalid', () => {
       //@ts-expect-error invalid args
-      const res = format({ format: 'invalid' }, dirCtx)
+      var res = format({ format: 'invalid' }, dirCtx)
 
       expect(res).toThrow()
     })
 
     test('empty', () => {
       //@ts-expect-error invalid args
-      const res = format({ format: '' }, dirCtx)
+      var res = format({ format: '' }, dirCtx)
 
       expect(res).toBeUndefined()
     })
 
     test('valid', () => {
-      const formats: Array<keyof FormatEnum> = ['avif', 'jpg', 'jpeg', 'png', 'heif', 'webp', 'tiff']
+      var formats: Array<keyof FormatEnum> = ['avif', 'jpg', 'jpeg', 'png', 'heif', 'webp', 'tiff']
 
-      for (const f of formats) {
-        const res = format({ format: f }, dirCtx)
+      for (var f of formats) {
+        var res = format({ format: f }, dirCtx)
 
         expect(res).toBeInstanceOf(Function)
       }
@@ -61,55 +61,55 @@ describe('format', () => {
     })
 
     test('webp', async () => {
-      const { image } = await applyTransforms([format({ format: 'webp' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'webp' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('jpg', async () => {
-      const { image } = await applyTransforms([format({ format: 'jpg' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'jpg' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('jpeg', async () => {
-      const { image } = await applyTransforms([format({ format: 'jpeg' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'jpeg' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('png', async () => {
-      const { image } = await applyTransforms([format({ format: 'png' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'png' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('avif', async () => {
-      const { metadata } = await applyTransforms([format({ format: 'avif' }, dirCtx)!], img)
+      var { metadata } = await applyTransforms([format({ format: 'avif' }, dirCtx)!], img)
 
       expect(metadata).toHaveProperty('format', 'avif')
     })
 
     test('heif', async () => {
-      const { metadata } = await applyTransforms([format({ format: 'heif' }, dirCtx)!], img)
+      var { metadata } = await applyTransforms([format({ format: 'heif' }, dirCtx)!], img)
 
       expect(metadata).toHaveProperty('format', 'heif')
     })
 
     test('tiff', async () => {
-      const { image } = await applyTransforms([format({ format: 'tiff' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'tiff' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('jpeg w/ quality', async () => {
-      const { image } = await applyTransforms([format({ format: 'jpeg', quality: '10' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'jpeg', quality: '10' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('png w/ quality', async () => {
-      const { image } = await applyTransforms([format({ format: 'png', quality: '10' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'png', quality: '10' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot({
         failureThreshold: 0.05,
@@ -118,43 +118,43 @@ describe('format', () => {
     })
 
     test('webp w/ quality', async () => {
-      const { image } = await applyTransforms([format({ format: 'webp', quality: '10' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'webp', quality: '10' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('tiff w/ quality', async () => {
-      const { image } = await applyTransforms([format({ format: 'tiff', quality: '10' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'tiff', quality: '10' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('avif w/ quality', async () => {
-      const { metadata } = await applyTransforms([format({ format: 'avif', quality: '10' }, dirCtx)!], img)
+      var { metadata } = await applyTransforms([format({ format: 'avif', quality: '10' }, dirCtx)!], img)
 
       expect(metadata).toHaveProperty('format', 'avif')
     })
 
     test('heif w/ quality', async () => {
-      const { metadata } = await applyTransforms([format({ format: 'heif', quality: '10' }, dirCtx)!], img)
+      var { metadata } = await applyTransforms([format({ format: 'heif', quality: '10' }, dirCtx)!], img)
 
       expect(metadata).toHaveProperty('format', 'heif')
     })
 
     test('jpeg w/ progressive', async () => {
-      const { image } = await applyTransforms([format({ format: 'jpeg', progressive: 'true' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'jpeg', progressive: 'true' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
 
     test('png w/ progressive', async () => {
-      const { image } = await applyTransforms([format({ format: 'png', progressive: 'true' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'png', progressive: 'true' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('webp w/ lossless', async () => {
-      const { image } = await applyTransforms(
+      var { image } = await applyTransforms(
         [format({ format: 'webp', lossless: 'true', quality: '1' }, dirCtx)!],
         img
       )
@@ -163,7 +163,7 @@ describe('format', () => {
     })
 
     test('png w/ effort', async () => {
-      const { image } = await applyTransforms([format({ format: 'png', effort: '1' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'png', effort: '1' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot({
         failureThreshold: 0.05,
@@ -172,7 +172,7 @@ describe('format', () => {
     })
 
     test('webp w/ effort', async () => {
-      const { image } = await applyTransforms([format({ format: 'webp', effort: 'min' }, dirCtx)!], img)
+      var { image } = await applyTransforms([format({ format: 'webp', effort: 'min' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchFile()
     })
