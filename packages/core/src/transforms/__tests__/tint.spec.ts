@@ -16,26 +16,26 @@ describe('tint', () => {
   })
 
   test('keyword "tint"', () => {
-    const res = tint({ tint: 'fff' }, dirCtx)
+    var res = tint({ tint: 'fff' }, dirCtx)
 
     expect(res).toBeInstanceOf(Function)
   })
 
   test('missing', () => {
-    const res = tint({}, dirCtx)
+    var res = tint({}, dirCtx)
 
     expect(res).toBeUndefined()
   })
 
   describe('arguments', () => {
     test('empty', () => {
-      const res = tint({ tint: '' }, dirCtx)
+      var res = tint({ tint: '' }, dirCtx)
 
       expect(res).toBeUndefined()
     })
 
     test('hex color', () => {
-      const res = tint({ tint: 'fff' }, dirCtx)
+      var res = tint({ tint: 'fff' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
@@ -48,19 +48,19 @@ describe('tint', () => {
     })
 
     test('red', async () => {
-      const { image } = await applyTransforms([tint({ tint: 'f00' }, dirCtx)!], img)
+      var { image } = await applyTransforms([tint({ tint: 'f00' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('green', async () => {
-      const { image } = await applyTransforms([tint({ tint: '0f0' }, dirCtx)!], img)
+      var { image } = await applyTransforms([tint({ tint: '0f0' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('blue', async () => {
-      const { image } = await applyTransforms([tint({ tint: '00f' }, dirCtx)!], img)
+      var { image } = await applyTransforms([tint({ tint: '00f' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
