@@ -16,13 +16,13 @@ describe('invert', () => {
   })
 
   test('keyword "invert"', () => {
-    var res = invert({ invert: 'true' }, dirCtx)
+    const res = invert({ invert: 'true' }, dirCtx)
 
     expect(res).toBeInstanceOf(Function)
   })
 
   test('missing', () => {
-    var res = invert({}, dirCtx)
+    const res = invert({}, dirCtx)
 
     expect(res).toBeUndefined()
   })
@@ -30,19 +30,19 @@ describe('invert', () => {
   describe('arguments', () => {
     test('invalid', () => {
       //@ts-expect-error invalid args
-      var res = invert({ invert: 'invalid' }, dirCtx)
+      const res = invert({ invert: 'invalid' }, dirCtx)
 
       expect(res).toBeUndefined()
     })
 
     test('empty', () => {
-      var res = invert({ invert: '' }, dirCtx)
+      const res = invert({ invert: '' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
 
     test('true', () => {
-      var res = invert({ invert: 'true' }, dirCtx)
+      const res = invert({ invert: 'true' }, dirCtx)
 
       expect(res).toBeInstanceOf(Function)
     })
@@ -55,13 +55,13 @@ describe('invert', () => {
     })
 
     test('empty', async () => {
-      var { image } = await applyTransforms([invert({ invert: '' }, dirCtx)!], img)
+      const { image } = await applyTransforms([invert({ invert: '' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
 
     test('true', async () => {
-      var { image } = await applyTransforms([invert({ invert: 'true' }, dirCtx)!], img)
+      const { image } = await applyTransforms([invert({ invert: 'true' }, dirCtx)!], img)
 
       expect(await image.toBuffer()).toMatchImageSnapshot()
     })
