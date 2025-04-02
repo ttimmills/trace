@@ -32,7 +32,7 @@ export type {
   VitePluginOptions
 } from './types.js'
 
-var defaultOptions: VitePluginOptions = {
+const defaultOptions: VitePluginOptions = {
   include: /^[^?]+\.(avif|gif|heif|jpeg|jpg|png|tiff|webp)(\?.*)?$/,
   exclude: 'public/**/*',
   removeMetadata: true
@@ -41,27 +41,27 @@ var defaultOptions: VitePluginOptions = {
 export * from 'imagetools-core'
 
 export function imagetools(userOptions: Partial<VitePluginOptions> = {}): Plugin {
-  var pluginOptions: VitePluginOptions = { ...defaultOptions, ...userOptions }
+  const pluginOptions: VitePluginOptions = { ...defaultOptions, ...userOptions }
 
-  var cacheOptions = {
+  const cacheOptions = {
     enabled: pluginOptions.cache?.enabled ?? true,
     dir: pluginOptions.cache?.dir ?? './node_modules/.cache/imagetools',
     retention: pluginOptions.cache?.retention
   }
   mkdirSync(`${cacheOptions.dir}`, { recursive: true })
 
-  var filter = createFilter(pluginOptions.include, pluginOptions.exclude)
+  const filter = createFilter(pluginOptions.include, pluginOptions.exclude)
 
-  var transformFactories = pluginOptions.extendTransforms ? pluginOptions.extendTransforms(builtins) : builtins
+  const transformFactories = pluginOptions.extendTransforms ? pluginOptions.extendTransforms(builtins) : builtins
 
-  var outputFormats: Record<string, OutputFormat> = pluginOptions.extendOutputFormats
+  const outputFormats: Record<string, OutputFormat> = pluginOptions.extendOutputFormats
     ? pluginOptions.extendOutputFormats(builtinOutputFormats)
     : builtinOutputFormats
 
   let viteConfig: ResolvedConfig
   let basePath: string
 
-  var generatedImages = new Map<string, { image?: Sharp; metadata: ImageMetadata }>()
+  const generatedImages = new Map<string, { image?: Sharp; metadata: ImageMetadata }>()
 
   return {
     name: 'imagetools',
@@ -73,70 +73,70 @@ export function imagetools(userOptions: Partial<VitePluginOptions> = {}): Plugin
     async load(id) {
       if (!filter(id)) return null
 
-      var srcURL = parseURL(id)
-      var pathname = decodeURIComponent(srcURL.pathname)
+      const srcURL = parseURL(id)
+      const pathname = decodeURIComponent(srcURL.pathname)
 
       // lazy loaders so that we can load the metadata in defaultDirectives if needed
       // but if there are no directives then we can just skip loading
       let lazyImg: Sharp
-      var lazyLoadImage = () => {
+      const lazyLoadImage = () => {
         if (lazyImg) return lazyImg
         return (lazyImg = sharp(pathname))
       }
 
       let lazyMetadata: Metadata
-      var lazyLoadMetadata = async () => {
+      const lazyLoadMetadata = async () => {
         if (lazyMetadata) return lazyMetadata
         return (lazyMetadata = await lazyLoadImage().metadata())
       }
 
-      var defaultDirectives =
+      const defaultDirectives =
         typeof pluginOptions.defaultDirectives === 'function'
           ? await pluginOptions.defaultDirectives(srcURL, lazyLoadMetadata)
           : pluginOptions.defaultDirectives || new URLSearchParams()
-      var directives = new URLSearchParams({
+      const directives = new URLSearchParams({
         ...Object.fromEntries(defaultDirectives),
         ...Object.fromEntries(srcURL.searchParams)
       })
 
       if (!directives.toString()) return null
 
-      var img = lazyLoadImage()
-      var widthParam = directives.get('w')
-      var heightParam = directives.get('h')
+      const img = lazyLoadImage()
+      const widthParam = directives.get('w')
+      const heightParam = directives.get('h')
       if (directives.get('allowUpscale') !== 'true' && (widthParam || heightParam)) {
-        var metadata = await lazyLoadMetadata()
-        var clamp = (s: string, intrinsic: number) =>
+        const metadata = await lazyLoadMetadata()
+        const clamp = (s: string, intrinsic: number) =>
           [...new Set(s.split(';').map((d): string => (parseInt(d) <= intrinsic ? d : intrinsic.toString())))].join(';')
 
         if (widthParam) {
-          var intrinsicWidth = metadata.width || 0
+          const intrinsicWidth = metadata.width || 0
           directives.set('w', clamp(widthParam, intrinsicWidth))
         }
 
         if (heightParam) {
-          var intrinsicHeight = metadata.height || 0
+          const intrinsicHeight = metadata.height || 0
           directives.set('h', clamp(heightParam, intrinsicHeight))
         }
       }
 
-      var parameters = extractEntries(directives)
-      var imageConfigs =
+      const parameters = extractEntries(directives)
+      const imageConfigs =
         pluginOptions.resolveConfigs?.(parameters, outputFormats) ?? resolveConfigs(parameters, outputFormats)
 
-      var outputMetadatas: Array<ProcessedImageMetadata> = []
+      const outputMetadatas: Array<ProcessedImageMetadata> = []
 
-      var logger: Logger = {
+      const logger: Logger = {
         info: (msg) => viteConfig.logger.info(msg),
         warn: (msg) => this.warn(msg),
         error: (msg) => this.error(msg)
       }
 
-      var imageBuffer = await img.clone().toBuffer()
+      const imageBuffer = await img.clone().toBuffer()
 
-      var imageHash = hash([imageBuffer])
-      for (var config of imageConfigs) {
-        var id = generateImageID(config, imageHash)
+      const imageHash = hash([imageBuffer])
+      for (const config of imageConfigs) {
+        const id = generateImageID(config, imageHash)
         let image: Sharp | undefined
         let metadata: ImageMetadata
 
@@ -148,8 +148,8 @@ export function imagetools(userOptions: Partial<VitePluginOptions> = {}): Plugin
           if (config.format === 'avif' && metadata.format === 'heif' && metadata.compression === 'av1')
             metadata.format = 'avif'
         } else {
-          var { transforms } = generateTransforms(config, transformFactories, srcURL.searchParams, logger)
-          var res = await applyTransforms(transforms, img, pluginOptions.removeMetadata)
+          const { transforms } = generateTransforms(config, transformFactories, srcURL.searchParams, logger)
+          const res = await applyTransforms(transforms, img, pluginOptions.removeMetadata)
           metadata = res.metadata
           if (cacheOptions.enabled) {
             await writeFile(`${cacheOptions.dir}/${id}`, await res.image.toBuffer())
@@ -168,7 +168,7 @@ export function imagetools(userOptions: Partial<VitePluginOptions> = {}): Plugin
         } else if (viteConfig.command === 'serve') {
           metadata.src = (viteConfig?.server?.origin ?? '') + basePath + id
         } else {
-          var fileHandle = this.emitFile({
+          const fileHandle = this.emitFile({
             name: basename(pathname, extname(pathname)) + `.${metadata.format}`,
             source: image ? await image.toBuffer() : await readFile(`${cacheOptions.dir}/${id}`),
             type: 'asset'
@@ -183,9 +183,9 @@ export function imagetools(userOptions: Partial<VitePluginOptions> = {}): Plugin
       }
 
       let outputFormat = urlFormat()
-      var asParam = directives.get('as')?.split(':')
-      var as = asParam ? asParam[0] : undefined
-      for (var [key, format] of Object.entries(outputFormats)) {
+      const asParam = directives.get('as')?.split(':')
+      const as = asParam ? asParam[0] : undefined
+      for (const [key, format] of Object.entries(outputFormats)) {
         if (as === key) {
           outputFormat = format(asParam && asParam[1] ? asParam[1].split(';') : undefined)
           break
@@ -202,9 +202,9 @@ export function imagetools(userOptions: Partial<VitePluginOptions> = {}): Plugin
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         if (req.url?.startsWith(basePath)) {
-          var [, id] = req.url.split(basePath)
+          const [, id] = req.url.split(basePath)
 
-          var { image, metadata } = generatedImages.get(id) ?? {}
+          const { image, metadata } = generatedImages.get(id) ?? {}
 
           if (!metadata)
             throw new Error(`vite-imagetools cannot find image with id "${id}" this is likely an internal error`)
@@ -228,14 +228,14 @@ export function imagetools(userOptions: Partial<VitePluginOptions> = {}): Plugin
 
     async buildEnd(error) {
       if (!error && cacheOptions.enabled && cacheOptions.retention !== undefined && viteConfig.command !== 'serve') {
-        var dir = await opendir(cacheOptions.dir)
+        const dir = await opendir(cacheOptions.dir)
 
-        for await (var dirent of dir) {
+        for await (const dirent of dir) {
           if (dirent.isFile()) {
             if (generatedImages.has(dirent.name)) continue
 
-            var imagePath = `${cacheOptions.dir}/${dirent.name}`
-            var stats = await stat(imagePath)
+            const imagePath = `${cacheOptions.dir}/${dirent.name}`
+            const stats = await stat(imagePath)
 
             if (Date.now() - stats.mtimeMs > cacheOptions.retention * 1000) {
               console.debug(`deleting stale cached image ${dirent.name}`)
