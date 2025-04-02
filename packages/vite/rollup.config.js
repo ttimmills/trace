@@ -4,8 +4,8 @@ import * as path from 'node:path'
 import { builtinModules as builtins } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
-const pkg = JSON.parse(await fs.readFile(path.join(fileURLToPath(import.meta.url), '..', 'package.json')))
-const deps = Object.keys(pkg.dependencies || {})
+let pkg = JSON.parse(await fs.readFile(path.join(fileURLToPath(import.meta.url), '..', 'package.json')))
+let deps = Object.keys(pkg.dependencies || {})
 
 export default {
   input: 'src/index.ts',
