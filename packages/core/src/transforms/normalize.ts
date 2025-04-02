@@ -5,7 +5,7 @@ export interface NormalizeOptions {
   normalize: '' | 'true'
 }
 
-export let normalize: TransformFactory<NormalizeOptions> = ({ normalize }) => {
+export const normalize: TransformFactory<NormalizeOptions> = ({ normalize }) => {
   if (normalize !== '' && normalize !== 'true') return
 
   return function normalizeTransform(image) {
