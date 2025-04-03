@@ -3,13 +3,13 @@ import { describe, test, expect } from 'vitest'
 
 describe('url format', () => {
   test('single image', () => {
-    const output = urlFormat()([{ src: '/foo.jpg' }])
+    let output = urlFormat()([{ src: '/foo.jpg' }])
 
     expect(output).toEqual('/foo.jpg')
   })
 
   test('multiple images', () => {
-    const output = urlFormat()([{ src: '/foo.jpg' }, { src: '/bar.jpg' }])
+    let output = urlFormat()([{ src: '/foo.jpg' }, { src: '/bar.jpg' }])
 
     expect(output).toStrictEqual(['/foo.jpg', '/bar.jpg'])
   })
@@ -17,13 +17,13 @@ describe('url format', () => {
 
 describe('metadata format', () => {
   test('single image', () => {
-    const output = metadataFormat()([{ src: '/foo.jpg', foo: 'bar', number: 1 }])
+    let output = metadataFormat()([{ src: '/foo.jpg', foo: 'bar', number: 1 }])
 
     expect(output).toStrictEqual({ src: '/foo.jpg', foo: 'bar', number: 1 })
   })
 
   test('multiple images', () => {
-    const output = metadataFormat()([
+    let output = metadataFormat()([
       { src: '/foo.jpg', foo: 'bar', number: 1 },
       { src: '/bar.jpg', hello: 'world', number: 2 }
     ])
@@ -35,7 +35,7 @@ describe('metadata format', () => {
   })
 
   test('whitelist', () => {
-    const output = metadataFormat(['src', 'number'])([
+    let output = metadataFormat(['src', 'number'])([
       { src: '/foo.jpg', foo: 'bar', number: 1 },
       { src: '/bar.jpg', hello: 'world', number: 2 }
     ])
@@ -49,7 +49,7 @@ describe('metadata format', () => {
 
 describe('image format', () => {
   test('single image', () => {
-    const output = imgFormat()([{ src: '/foo.webp', format: 'webp', width: 100, height: 50 }])
+    let output = imgFormat()([{ src: '/foo.webp', format: 'webp', width: 100, height: 50 }])
 
     expect(output).toStrictEqual({
       src: '/foo.webp',
@@ -59,7 +59,7 @@ describe('image format', () => {
   })
 
   test('multiple image sizes', () => {
-    const output = imgFormat()([
+    let output = imgFormat()([
       { src: '/foo-100.webp', format: 'webp', width: 100, height: 50 },
       { src: '/foo-50.webp', format: 'webp', width: 50, height: 25 }
     ])
@@ -75,7 +75,7 @@ describe('image format', () => {
 
 describe('picture format', () => {
   test('multiple image formats', () => {
-    const output = pictureFormat()([
+    let output = pictureFormat()([
       { src: '/foo.avif', format: 'avif', width: 100, height: 50 },
       { src: '/foo.webp', format: 'webp', width: 100, height: 50 },
       { src: '/foo.jpg', format: 'jpg', width: 100, height: 50 }
@@ -95,7 +95,7 @@ describe('picture format', () => {
   })
 
   test('multiple image formats and sizes', () => {
-    const output = pictureFormat()([
+    let output = pictureFormat()([
       { src: '/foo-100.avif', format: 'avif', width: 100, height: 50 },
       { src: '/foo-100.webp', format: 'webp', width: 100, height: 50 },
       { src: '/foo-100.jpg', format: 'jpg', width: 100, height: 50 },
@@ -121,13 +121,13 @@ describe('picture format', () => {
 
 describe('srcset format', () => {
   test('single image', () => {
-    const output = srcsetFormat()([{ src: '/foo.jpg', width: 500 }])
+    let output = srcsetFormat()([{ src: '/foo.jpg', width: 500 }])
 
     expect(output).toEqual('/foo.jpg 500w')
   })
 
   test('multiple images', () => {
-    const output = srcsetFormat()([
+    let output = srcsetFormat()([
       { src: '/foo.jpg', width: 500 },
       { src: '/bar.jpg', width: 300 }
     ])
