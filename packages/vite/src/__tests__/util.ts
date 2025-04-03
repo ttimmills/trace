@@ -4,7 +4,7 @@ import pm from 'picomatch'
 import { join, dirname } from 'path'
 
 export function testEntry(source: string): Plugin {
-  let id: string
+  const id: string
 
   return {
     name: 'test-entry',
