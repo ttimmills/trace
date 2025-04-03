@@ -10,7 +10,7 @@ export interface FormatOptions {
   format: keyof FormatEnum
 }
 
-export const format: TransformFactory<FormatOptions> = (config) => {
+export var format: TransformFactory<FormatOptions> = (config) => {
   let format: keyof FormatEnum
 
   if (!config.format) {
